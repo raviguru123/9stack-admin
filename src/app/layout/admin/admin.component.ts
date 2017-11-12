@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { routerTransition } from '../../router.animations';
+import { LocalDataSource} from 'ng2-smart-table';
 import {data} from './data';
 @Component({
     selector: 'admin-dashboard',
@@ -8,6 +9,7 @@ import {data} from './data';
 })
 export class AdminComponent {
     settings = {
+      editable:false,
         columns: {
           id: {
             title: 'ID'
@@ -23,8 +25,33 @@ export class AdminComponent {
           }
         }
       };
-      data=[];
+      source: LocalDataSource;
       constructor() {
-        this.data=data;
+        this.source = new LocalDataSource(data);
+      }
+
+      onSearch(query: string = '') {
+        this.source.setFilter([
+          // fields we want to include in the search
+          {
+            field: 'id',
+            search: query
+          },
+          {
+            field: 'name',
+            search: query
+          },
+          {
+            field: 'username',
+            search: query
+          },
+          {
+            field: 'email',
+            search: query
+          }
+        ], false);
+        // second parameter specifying whether to perform 'AND' or 'OR' search 
+        // (meaning all columns should contain search query or at least one)
+        // 'AND' by default, so changing to 'OR' by setting false here
       }
 }
