@@ -1,14 +1,13 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Ng2SmartTableModule} from 'ng2-smart-table';
-
 import {
     NgbCarouselModule,
     NgbAlertModule
 } from '@ng-bootstrap/ng-bootstrap';
 
-import { DashboardRoutingModule } from './dashboard-routing.module';
-import { DashboardComponent } from './dashboard.component';
+import { AdminRoutingModule } from './admin-routing.module';
+import { AdminComponent } from './admin.component';
 import { StatModule } from '../../shared';
 
 @NgModule({
@@ -17,11 +16,11 @@ import { StatModule } from '../../shared';
         Ng2SmartTableModule,
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
-        DashboardRoutingModule,
+        AdminRoutingModule,
         StatModule,
     ],
     declarations: [
-        DashboardComponent
+        AdminComponent
     ]
 })
-export class DashboardModule { }
+export class AdminModule { }

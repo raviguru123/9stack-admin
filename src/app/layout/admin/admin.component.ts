@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { routerTransition } from '../../router.animations';
 import {data} from './data';
 @Component({
-    selector: 'app-blank-page',
+    selector: 'admin-dashboard',
     template:'<ng2-smart-table [settings]="settings" [source]="data"></ng2-smart-table>',
-    styleUrls: ['./blank-page.component.scss']
+    styleUrls: ['./admin.component.scss'],
 })
-export class BlankPageComponent implements OnInit {
+export class AdminComponent {
     settings = {
         columns: {
           id: {
@@ -23,11 +24,7 @@ export class BlankPageComponent implements OnInit {
         }
       };
       data=[];
-
-    constructor() {
+      constructor() {
         this.data=data;
-    }
-
-    ngOnInit() {
-    }
+      }
 }
