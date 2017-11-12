@@ -9,10 +9,9 @@ const routes: Routes = [
         canActivate: [AuthGuard]
     },
     
-    { path: 'smarttable', loadChildren: './demo2/data-table-module#DataTableModule' },
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
-    { path: 'not-found', loadChildren: './notfound/not-found.module#NotFoundModule' },
+    { path: 'not-found', loadChildren: './notfound/not-found.module#NotFoundModule'},
     { path: '**', redirectTo: 'not-found' }
 ];
 
