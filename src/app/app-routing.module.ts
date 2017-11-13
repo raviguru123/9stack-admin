@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './shared';
-
 const routes: Routes = [
     {
         path: '',
@@ -11,6 +10,7 @@ const routes: Routes = [
     
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
+    { path: 'smarttable', loadChildren: './smart-table/smart-table.module#SmartTableModule' },
     { path: 'not-found', loadChildren: './notfound/not-found.module#NotFoundModule'},
     { path: '**', redirectTo: 'not-found' }
 ];
