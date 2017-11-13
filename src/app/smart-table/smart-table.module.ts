@@ -7,7 +7,7 @@ import { Ng2SmartTableModule} from 'ng2-smart-table';
 import {SmartTableComponent} from './smart-table.component'
 import {SmartRoutingModule} from './smart.routing.module';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { DatePickerModule } from '../shared';
+import { DatePickerModule,HttpService } from '../shared';
 
 
 
@@ -21,7 +21,8 @@ imports:[
     DatePickerModule
 ],
 declarations:[
-    SmartTableComponent]
+    SmartTableComponent],
+providers:[HttpService]
 })
 
 export class SmartTableModule {

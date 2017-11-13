@@ -1,169 +1,35 @@
-import { Component } from '@angular/core';
+import { Component,OnInit } from '@angular/core';
+import { DatePickerModule } from '../shared';
+import { LocalDataSource } from 'ng2-smart-table';
+import {HttpService} from '../shared';
+
 @Component({
   selector: 'advanced-example-filters',
   templateUrl:'./smart-table.component.html' ,
-  
 })
-export class SmartTableComponent {
 
-  data = [
-    {
-      id: 4,
-      name: 'Patricia Lebsack',
-      email: 'Julianne.OConner@kory.org',
-      passed: 'Yes',
-    },
-    {
-      id: 5,
-      name: 'Chelsey Dietrich',
-      email: 'Lucio_Hettinger@annie.ca',
-      passed: 'No',
-    },
-    {
-      id: 6,
-      name: 'Mrs. Dennis Schulist',
-      email: 'Karley_Dach@jasper.info',
-      passed: 'Yes',
-    },
-    {
-      id: 7,
-      name: 'Kurtis Weissnat',
-      email: 'Telly.Hoeger@billy.biz',
-      passed: 'No',
-    },
-    {
-      id: 8,
-      name: 'Nicholas Runolfsdottir V',
-      email: 'Sherwood@rosamond.me',
-      passed: 'Yes',
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      email: 'Chaim_McDermott@dana.io',
-      passed: 'No',
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      email: 'Rey.Padberg@karina.biz',
-      passed: 'No',
-    },
-    {
-      id: 11,
-      name: 'Nicholas DuBuque',
-      email: 'Rey.Padberg@rosamond.biz',
-      passed: 'Yes',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      email: 'Chaim_McDermott@dana.io',
-      passed: 'No',
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      email: 'Rey.Padberg@karina.biz',
-      passed: 'No',
-    },
-    {
-      id: 11,
-      name: 'Nicholas DuBuque',
-      email: 'Rey.Padberg@rosamond.biz',
-      passed: 'Yes',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      email: 'Chaim_McDermott@dana.io',
-      passed: 'No',
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      email: 'Rey.Padberg@karina.biz',
-      passed: 'No',
-    },
-    {
-      id: 11,
-      name: 'Nicholas DuBuque',
-      email: 'Rey.Padberg@rosamond.biz',
-      passed: 'Yes',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 9,
-      name: 'Glenna Reichert',
-      email: 'Chaim_McDermott@dana.io',
-      passed: 'No',
-    },
-    {
-      id: 10,
-      name: 'Clementina DuBuque',
-      email: 'Rey.Padberg@karina.biz',
-      passed: 'No',
-    },
-    {
-      id: 11,
-      name: 'Nicholas DuBuque',
-      email: 'Rey.Padberg@rosamond.biz',
-      passed: 'Yes',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-    {
-      id: 12,
-      name: '1Nicholas DuBuque',
-      email: '1Rey.Padberg@rosamond.biz',
-      passed: 'No',
-    },
-  ];
+export class SmartTableComponent implements OnInit {
+    
+  source:LocalDataSource;
+  settings={};
+  constructor(private httpservice:HttpService){
 
+   this.source = new LocalDataSource();
+   this.httpservice.getData().then(data=>{
+    //this.source.load(data);
+    this.source=data;    
+    this.getsetting();
+   },err=>{
+ 
+   });
+  }
 
+  ngOnInit() {
+    
+  }
 
-
-
-  settings = {
+getsetting(){
+  this.settings = {
     columns: {
       id: {
         title: 'ID',
@@ -188,7 +54,7 @@ export class SmartTableComponent {
           type: 'completer',
           config: {
             completer: {
-              data: this.data,
+              data: this.source,
               searchFields: 'email',
               titleField: 'email',
             },
@@ -206,6 +72,21 @@ export class SmartTableComponent {
           },
         },
       },
+      last:{
+        title:"Test",
+        filter:false
+      }
     },
-  };
+};
+
+}
+
+
+
+
+
+
+
+
+
 }
