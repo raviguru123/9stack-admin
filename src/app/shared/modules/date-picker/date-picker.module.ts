@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-
-import { DatePickerComponent } from './date-picker.component';
+import {DpDatePickerModule} from 'ng2-date-picker';
+import { DatePickerComponent1 } from './date-picker.component';
 
 @NgModule({
     imports: [
         CommonModule,
+        DpDatePickerModule,
         RouterModule
     ],
-    declarations: [DatePickerComponent],
-    exports: [DatePickerComponent]
+    declarations: [DatePickerComponent1],
+    exports: [DatePickerComponent1]
 })
 export class DatePickerModule { }
