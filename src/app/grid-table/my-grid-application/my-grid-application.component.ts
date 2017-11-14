@@ -1,60 +1,99 @@
 import {Component} from "@angular/core";
 import {RedComponentComponent} from "../red-component/red-component.component";
 import {GridOptions} from "ag-grid/main";
+import {HttpService} from '../../shared';
 
 @Component({
     selector: 'app-my-grid-application',
-    templateUrl: './my-grid-application.component.html'
+    templateUrl: './my-grid-application.component.html',
+    providers:[HttpService]
 })
 export class MyGridApplicationComponent {
     gridOptions: GridOptions;
     columnDefs: any[]
+    newcolumnDefs:any[];
+    newrowData: any[];
     rowData: any[];
+    private gridApi;
+    private gridColumnApi;
 
-    constructor() {
-        this.gridOptions = <GridOptions>{};
-        this.columnDefs = [
-            {headerName: "Make", field: "make"},
-            {headerName: "Model", field: "model", colId: "square",
-            width: 175,cellRendererFramework: RedComponentComponent},
-            {headerName: "Price", field: "price"}
-        ];
+ constructor(private httpservice:HttpService) {
+       this.gridOptions = <GridOptions>{}; 
 
-        this.rowData = [
-            {make: "Toyota", model: "Celica", price: 35000},
-            {make: "Ford", model: "Mondeo", price: 32000},
-            {make: "Porsche1", model: "Boxter", price: 72000},
-            {make: "Toyota1", model: "Celica", price: 35000},
-            {make: "Ford1", model: "Mondeo", price: 32000},
-            {make: "Porsche2", model: "Boxter", price: 72000},
-            {make: "Toyota2", model: "Celica", price: 35000},
-            {make: "Ford2", model: "Mondeo", price: 32000},
-            {make: "Porsche3", model: "Boxter", price: 72000},
-            {make: "Toyota3", model: "Celica", price: 35000},
-            {make: "Ford3", model: "Mondeo", price: 32000},
-            {make: "Porsche3", model: "Boxter", price: 72000},
-            {make: "Toyota", model: "Celica", price: 35000},
-            {make: "Ford", model: "Mondeo", price: 32000},
-            {make: "Porsche1", model: "Boxter", price: 72000},
-            {make: "Toyota1", model: "Celica", price: 35000},
-            {make: "Ford1", model: "Mondeo", price: 32000},
-            {make: "Porsche2", model: "Boxter", price: 72000},
-            {make: "Toyota2", model: "Celica", price: 35000},
-            {make: "Ford2", model: "Mondeo", price: 32000},
-            {make: "Porsche3", model: "Boxter", price: 72000},
-            {make: "Toyota3", model: "Celica", price: 35000},
-            {make: "Ford3", model: "Mondeo", price: 32000},
-            {make: "Porsche3", model: "Boxter", price: 72000}
-        ]
+        httpservice.getData().then(data=>{
+            this.columnDefs=this.generatecolumn(data[0].data.columns);
+            this.rowData=this.parseRow(data[0].data.transaction_traces.transactions);
+        },err=>{
+
+        })
     }
+
+    generatecolumn(data:any){
+        let columns=[];
+        for (let prop in data){
+            switch(data[prop].type) { 
+                case "search": { 
+                    columns.push({
+                        suppressSizeToFit:true,
+                        headerName:data[prop].name,
+                        field:prop,
+                    }) 
+                   break; 
+                }
+                case "Dropdown":  
+                case "dropdown": { 
+                    columns.push({
+                        suppressSizeToFit:true,
+                        headerName:data[prop].name,
+                        field:prop,
+                    }) 
+                   break; 
+                } 
+                case "Date": {
+                    columns.push({
+                        suppressSizeToFit:true,
+                        headerName:data[prop].name,
+                        field:prop,
+                    }) 
+                   break;    
+                } 
+                default: { 
+                    columns.push({
+                        suppressSizeToFit:true,
+                        headerName:data[prop].name,
+                        field:prop,
+                    })           
+                } 
+             }
+           
+        }
+        return columns;
+    }
+
+    
+    parseRow(data){
+        let rows=[];
+        for(let row of data){
+            rows.push(row.fields);
+        }
+        return rows;
+    }
+
+
 
     onGridReady(params) {
-        console.log("ongrid ready function call");
-        params.api.sizeColumnsToFit();
+        this.gridApi = params.api;
+        this.gridColumnApi = params.columnApi;
+        params.api.setRowData(this.rowData);
+        // setTimeout(()=>{
+        //     params.api.sizeColumnsToFit();
+        // },5000);
     }
-    onModelUpdated(){
-        console.log("onModelUpdated function call");
+    
+    sizeToFit() {
+        this.gridApi.sizeColumnsToFit();
     }
+    
     selectAllRows() {
         this.gridOptions.api.selectAll();
     }
