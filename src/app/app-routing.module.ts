@@ -11,6 +11,7 @@ const routes: Routes = [
     { path: 'login', loadChildren: './login/login.module#LoginModule' },
     { path: 'signup', loadChildren: './signup/signup.module#SignupModule' },
     { path: 'smarttable', loadChildren: './smart-table/smart-table.module#SmartTableModule' },
+    { path: 'grid', loadChildren: './grid-table/grid-table.module#GridModule'},
     { path: 'not-found', loadChildren: './notfound/not-found.module#NotFoundModule'},
     { path: '**', redirectTo: 'not-found' }
 ];
