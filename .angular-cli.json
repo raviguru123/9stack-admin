@@ -20,15 +20,14 @@
         "prefix": "app",
         "styles": [
             "../node_modules/font-awesome/css/font-awesome.css",
-            "styles/app.scss",
-            "../node_modules/bootstrap/dist/css/bootstrap.min.css"
+            "styles/app.scss"
+
 
         ],
         "scripts": [
             "../node_modules/chart.js/dist/Chart.js",
-            "../node_modules/jquery/dist/jquery.min.js",
-            "../node_modules/bootstrap/dist/js/bootstrap.min.js",
-            "../node_modules/mobile-detect/mobile-detect.js"
+            "../node_modules/mobile-detect/mobile-detect.js",
+            "../node_modules/jquery/dist/jquery.min.js"
 
         ],
         "environmentSource": "environments/environment.ts",
