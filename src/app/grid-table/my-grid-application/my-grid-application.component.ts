@@ -1,6 +1,7 @@
 import {Component} from "@angular/core";
 import {RedComponentComponent} from "../red-component/red-component.component";
 import {GridOptions} from "ag-grid/main";
+import "ag-grid-enterprise";
 import {HttpService} from '../../shared';
 
 @Component({
@@ -38,6 +39,7 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        filter:'text',
                         suppressMenu: true
                     }) 
                    break; 
@@ -45,11 +47,16 @@ export class MyGridApplicationComponent {
                 case "Dropdown":  
                 case "dropdown": { 
                     columns.push({
-                        suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
-                        suppressMenu: true
-                    }) 
+                        filter: "set",
+                        filterParams: {
+                          cellHeight: 20,
+                          values:data[prop].values,
+                          debounceMs: 1000
+                        }
+                    });
+                    console.log("prop",data[prop]);
                    break; 
                 } 
                 case "Date": {
@@ -94,6 +101,7 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        filter:'text',
                         suppressMenu: true
                     })           
                 } 
@@ -130,6 +138,9 @@ export class MyGridApplicationComponent {
         this.gridApi.sizeColumnsToFit();
     }
     
+    onPaginationPageLoaded(){
+        console.log("onPaginationPageLoaded method call");
+    }
     selectAllRows() {
         this.gridOptions.api.selectAll();
     }
