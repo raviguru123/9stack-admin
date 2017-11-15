@@ -20,8 +20,11 @@ export class MyGridApplicationComponent {
     private gridColumnApi;
 
  constructor(private httpservice:HttpService) {
-       this.gridOptions = <GridOptions>{}; 
-
+       this.gridOptions = <GridOptions>{
+        // isExternalFilterPresent: this.externalFilterPresent,
+        // doesExternalFilterPass: this.externalFilterPass
+       }; 
+       
         httpservice.getData().then(data=>{
             this.columnDefs=this.generatecolumn(data[0].data.columns);
             this.rowData=this.parseRow(data[0].data.transaction_traces.transactions);
@@ -29,6 +32,16 @@ export class MyGridApplicationComponent {
 
         })
     }
+
+    // externalFilterPresent(){
+    //     console.log("externalFilterPresent");
+    //         return false;
+    // }
+
+    // externalFilterPass(){
+    //     console.log("externalFilterPass");
+    //     return false;
+    // }
 
     generatecolumn(data:any){
         let columns=[];
@@ -68,6 +81,7 @@ export class MyGridApplicationComponent {
                         suppressMenu: true,
                         filterParams: {
                             comparator: function(filterLocalDateAtMidnight, cellValue) {
+                                console.log("date filter cllabxk");
                                 if(cellValue==undefined || cellValue.length==0){
                                     return -1;
                                 }
@@ -112,6 +126,7 @@ export class MyGridApplicationComponent {
     }
 
     
+
     parseRow(data){
         let rows=[];
         for(let row of data){
@@ -120,6 +135,9 @@ export class MyGridApplicationComponent {
         return rows;
     }
 
+    changedata(column){
+        console.log("change page filter",this.gridApi);
+    }
     onPageSizeChanged(newPageSize) {
         var value = document.getElementById("page-size");
         this.gridApi.paginationSetPageSize(Number(newPageSize));
@@ -129,9 +147,6 @@ export class MyGridApplicationComponent {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
         params.api.setRowData(this.rowData);
-        // setTimeout(()=>{
-        //     params.api.sizeColumnsToFit();
-        // },5000);
     }
     
     sizeToFit() {
