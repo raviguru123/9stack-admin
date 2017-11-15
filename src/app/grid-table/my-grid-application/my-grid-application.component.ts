@@ -28,9 +28,27 @@ export class MyGridApplicationComponent {
         httpservice.getData().then(data=>{
             this.columnDefs=this.generatecolumn(data[0].data.columns);
             this.rowData=this.parseRow(data[0].data.transaction_traces.transactions);
+            
+            this.gridOptions = {
+                columnDefs:this.columnDefs,
+                rowData:this.rowData,
+                enableSorting: true,
+                isExternalFilterPresent:this.isExternalFilterPresent,
+                doesExternalFilterPass:this.doesExternalFilterPass,
+            };
         },err=>{
 
         })
+    }
+
+
+        
+    isExternalFilterPresent(){
+        return true;
+    }
+    doesExternalFilterPass(node) {
+        console.log("node=",node);
+        return true;
     }
 
     // externalFilterPresent(){
@@ -136,8 +154,14 @@ export class MyGridApplicationComponent {
     }
 
     changedata(column){
-        console.log("change page filter",this.gridApi);
+        console.log("this.gridApi.getFilterModel()",this.gridApi.getFilterModel());//this line is use for get all filter value
     }
+
+    clearFilter(){
+        this.gridApi.setFilterModel(null);
+        this.gridApi.onFilterChanged();
+    }
+
     onPageSizeChanged(newPageSize) {
         var value = document.getElementById("page-size");
         this.gridApi.paginationSetPageSize(Number(newPageSize));
