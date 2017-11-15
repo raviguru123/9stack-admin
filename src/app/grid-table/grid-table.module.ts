@@ -6,9 +6,10 @@ import {MyGridApplicationComponent} from "./my-grid-application/my-grid-applicat
 import {RedComponentComponent} from "./red-component/red-component.component";
 import {GridRoutingModule} from './grid.routing.module';
 import {GridComponent} from './grid-table.component'
-
+import {HttpClientModule} from '@angular/common/http';
 @NgModule({ imports: [
     FormsModule,
+    HttpClientModule,
     AgGridModule.withComponents(
         [RedComponentComponent]
         ),
@@ -18,7 +19,8 @@ import {GridComponent} from './grid-table.component'
     GridComponent,
     MyGridApplicationComponent,
     RedComponentComponent
-    ]
+    ],
+    providers: []
 })
 
 export class GridModule {

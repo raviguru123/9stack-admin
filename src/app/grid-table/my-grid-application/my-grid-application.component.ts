@@ -25,6 +25,12 @@ export class MyGridApplicationComponent {
         // doesExternalFilterPass: this.externalFilterPass
        }; 
        
+       httpservice.GetRequest('http://adminbff.7pe7.com/api/v1/admin/transactions/?purpose=promo&sortby=created_on&sort_method=desc&credit_type=cash_money').then(result=>{
+        console.log("result come from api",result);
+       },err=>{
+        console.log("error occured during data fetch",err);
+       })
+
         httpservice.getData().then(data=>{
             this.columnDefs=this.generatecolumn(data[0].data.columns);
             this.rowData=this.parseRow(data[0].data.transaction_traces.transactions);
