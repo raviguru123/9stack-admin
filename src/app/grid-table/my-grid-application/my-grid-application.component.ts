@@ -29,13 +29,13 @@ export class MyGridApplicationComponent {
             this.columnDefs=this.generatecolumn(data[0].data.columns);
             this.rowData=this.parseRow(data[0].data.transaction_traces.transactions);
             
-            this.gridOptions = {
-                columnDefs:this.columnDefs,
-                rowData:this.rowData,
-                enableSorting: true,
-                isExternalFilterPresent:this.isExternalFilterPresent,
-                doesExternalFilterPass:this.doesExternalFilterPass,
-            };
+            // this.gridOptions = {
+            //     columnDefs:this.columnDefs,
+            //     rowData:this.rowData,
+            //     enableSorting: true,
+            //     isExternalFilterPresent:this.isExternalFilterPresent,
+            //     doesExternalFilterPass:this.doesExternalFilterPass,
+            // };
         },err=>{
 
         })
@@ -50,16 +50,6 @@ export class MyGridApplicationComponent {
         console.log("node=",node);
         return true;
     }
-
-    // externalFilterPresent(){
-    //     console.log("externalFilterPresent");
-    //         return false;
-    // }
-
-    // externalFilterPass(){
-    //     console.log("externalFilterPass");
-    //     return false;
-    // }
 
     generatecolumn(data:any){
         let columns=[];
@@ -155,6 +145,7 @@ export class MyGridApplicationComponent {
 
     changedata(column){
         console.log("this.gridApi.getFilterModel()",this.gridApi.getFilterModel());//this line is use for get all filter value
+        //api.setRowData(data);
     }
 
     clearFilter(){
@@ -170,6 +161,7 @@ export class MyGridApplicationComponent {
     onGridReady(params) {
         this.gridApi = params.api;
         this.gridColumnApi = params.columnApi;
+        //this.gridColumnApi.paginationGetRowCount()=1000;
         params.api.setRowData(this.rowData);
     }
     
