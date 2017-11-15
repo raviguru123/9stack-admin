@@ -38,6 +38,7 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        suppressMenu: true
                     }) 
                    break; 
                 }
@@ -47,6 +48,7 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        suppressMenu: true
                     }) 
                    break; 
                 } 
@@ -56,6 +58,7 @@ export class MyGridApplicationComponent {
                         headerName:data[prop].name,
                         field:prop,
                         filter: 'date',
+                        suppressMenu: true,
                         filterParams: {
                             comparator: function(filterLocalDateAtMidnight, cellValue) {
                                 if(cellValue==undefined || cellValue.length==0){
@@ -91,6 +94,7 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        suppressMenu: true
                     })           
                 } 
              }
