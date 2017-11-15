@@ -1,5 +1,4 @@
-<p>Simple ag-Grid Angular Example</p>
-
+<div style="box-sizing: border-box; padding-top: 30px; height: 98%;">
             <ag-grid-angular 
             #agGrid
             style="width: 100%; height:600px;"
@@ -10,7 +9,7 @@
             [enableSorting]="true"
             [enableFilter]="true"
             [suppressRowClickSelection]="true"
-            [paginationPageSize]="20"
+            [paginationPageSize]="10"
             [groupSelectsChildren]="true"
             [debug]="true"
             [rowSelection]="rowSelection"
@@ -22,3 +21,13 @@
             [defaultColDef]="defaultColDef"
             (gridReady)="onGridReady($event)"
             ></ag-grid-angular>
+        </div>
+        <div style="position: fixed; top: 0; left: 0;">
+            Page Size:
+            <select [(ngModel)]="pagesize" (change)="onPageSizeChanged(pagesize)" id="page-size">
+                <option value="10" selected="">10</option>
+                <option value="100">100</option>
+                <option value="500">500</option>
+                <option value="1000">1000</option>
+            </select>
+        </div>`

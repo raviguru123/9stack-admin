@@ -14,6 +14,7 @@ export class MyGridApplicationComponent {
     newcolumnDefs:any[];
     newrowData: any[];
     rowData: any[];
+    pagesize=10;
     private gridApi;
     private gridColumnApi;
 
@@ -54,6 +55,34 @@ export class MyGridApplicationComponent {
                         suppressSizeToFit:true,
                         headerName:data[prop].name,
                         field:prop,
+                        filter: 'date',
+                        filterParams: {
+                            comparator: function(filterLocalDateAtMidnight, cellValue) {
+                                if(cellValue==undefined || cellValue.length==0){
+                                    return -1;
+                                }
+                                var dateAsString = cellValue;
+                                var dateParts = dateAsString.split('/');
+                                var cellDate = new Date(Number(dateParts[2]), Number(dateParts[1]) - 1, Number(dateParts[0]));
+                
+                                if (filterLocalDateAtMidnight.getTime() === cellDate.getTime()) {
+                                    return 0;
+                                }
+                
+                                if (cellDate < filterLocalDateAtMidnight) {
+                                    return -1;
+                                }
+                
+                                if (cellDate > filterLocalDateAtMidnight) {
+                                    return 1;
+                                }
+                            },
+                            nullComparator: {
+                                equals: false,
+                                lessThan: false,
+                                greaterThan: false
+                            }
+                        }
                     }) 
                    break;    
                 } 
@@ -79,7 +108,10 @@ export class MyGridApplicationComponent {
         return rows;
     }
 
-
+    onPageSizeChanged(newPageSize) {
+        var value = document.getElementById("page-size");
+        this.gridApi.paginationSetPageSize(Number(newPageSize));
+      }
 
     onGridReady(params) {
         this.gridApi = params.api;
