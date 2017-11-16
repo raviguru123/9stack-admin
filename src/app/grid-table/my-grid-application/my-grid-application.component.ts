@@ -3,6 +3,12 @@ import {RedComponentComponent} from "../red-component/red-component.component";
 import {GridOptions} from "ag-grid/main";
 import "ag-grid-enterprise";
 import {HttpService} from '../../shared';
+import {HttpParams } from '@angular/common/http';
+
+class HttpArgument {
+    url:string;
+    params:HttpParams;
+}
 
 @Component({
     selector: 'app-my-grid-application',
@@ -18,18 +24,16 @@ export class MyGridApplicationComponent {
     pagesize=10;
     private gridApi;
     private gridColumnApi;
-
+    
  constructor(private httpservice:HttpService) {
        this.gridOptions = <GridOptions>{
-        // isExternalFilterPresent: this.externalFilterPresent,
-        // doesExternalFilterPass: this.externalFilterPass
        }; 
        
-       httpservice.GetRequest('http://adminbff.7pe7.com/api/v1/admin/transactions/?purpose=promo&sortby=created_on&sort_method=desc&credit_type=cash_money').then(result=>{
-        console.log("result come from api",result);
-       },err=>{
-        console.log("error occured during data fetch",err);
-       })
+    //    httpservice.GetRequest({url:'http://adminbff.7pe7.com/api/v1/admin/transactions/?purpose=promo&sortby=created_on&sort_method=desc&credit_type=cash_money'}).then(result=>{
+    //     console.log("result come from api",result);
+    //    },err=>{
+    //     console.log("error occured during data fetch",err);
+    //    });
 
         httpservice.getData().then(data=>{
             this.columnDefs=this.generatecolumn(data[0].data.columns);
@@ -139,7 +143,34 @@ export class MyGridApplicationComponent {
         return columns;
     }
 
+
+    formatfiletrValue(data:any){
+        let params=[];
+        for (let prop in data){
+            debugger;
+            if (data.hasOwnProperty(prop)) {
+            switch(data[prop].filterType) { 
+                case "number":
+                case "text": { 
+                    params.push(encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop].filter));
+                    break; 
+                }
+                case "date": {
+                    params.push(encodeURIComponent(prop) + '=' +(new Date(data[prop].dateFrom).getTime()));
+                    break;    
+                } 
+                default: { 
+                    params.push(encodeURIComponent(prop) + '=' + encodeURIComponent(data[prop].join(',')));
+                } 
+             }
+            }
+        }
+     return "?" + params.join('&');
+    }
     
+
+
+
 
     parseRow(data){
         let rows=[];
@@ -150,8 +181,16 @@ export class MyGridApplicationComponent {
     }
 
     changedata(column){
-        console.log("this.gridApi.getFilterModel()",this.gridApi.getFilterModel());//this line is use for get all filter value
-        //api.setRowData(data);
+        const arg= new HttpArgument();
+        arg.url='http://adminbff.7pe7.com/api/v1/admin/transactions/?purpose=promo&sortby=created_on&sort_method=desc';
+        arg.url+=this.formatfiletrValue(this.gridApi.getFilterModel());
+        this.httpservice.GetRequest(arg).then(result=>{
+            console.log("result come from api after filter=",result);
+           },err=>{
+            console.log("error occured during data fetch",err);
+           });
+    
+        //this.gridApi.setRowData(data);
     }
 
     clearFilter(){
